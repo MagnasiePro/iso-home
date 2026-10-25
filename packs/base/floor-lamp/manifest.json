@@ -1,0 +1,20 @@
+{
+  "id": "floor-lamp",
+  "type": "floor-lamp",
+  "haDomains": ["light"],
+  "footprint": {
+    "width": 1,
+    "height": 1
+  },
+  "sprites": {
+    "off": "floor-lamp-off.png",
+    "on": "floor-lamp-on.png"
+  },
+  "stateMap": {
+    "on": "on",
+    "off": "off"
+  },
+  "quickAction": {
+    "service": "light.toggle"
+  }
+}

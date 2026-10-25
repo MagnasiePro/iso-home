@@ -7,13 +7,15 @@
   "types": "./src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@iso-home/core-model": "workspace:*",
     "pixi.js": "^8.6.6"
   },
   "devDependencies": {
+    "@playwright/test": "~1.59.1",
     "@types/node": "^22.10.2",
     "vitest": "^2.1.8"
   }

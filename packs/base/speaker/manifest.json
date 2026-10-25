@@ -1,0 +1,20 @@
+{
+  "id": "speaker",
+  "type": "speaker",
+  "haDomains": ["media_player"],
+  "footprint": {
+    "width": 1,
+    "height": 1
+  },
+  "sprites": {
+    "off": "speaker-off.png",
+    "on": "speaker-on.png"
+  },
+  "stateMap": {
+    "on": "on",
+    "playing": "on",
+    "paused": "on",
+    "off": "off",
+    "idle": "off"
+  }
+}

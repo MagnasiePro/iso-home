@@ -13,6 +13,7 @@
     "@iso-home/core-model": "workspace:*",
     "@iso-home/core-render": "workspace:*",
     "@iso-home/importer-magicplan": "workspace:*",
+    "home-assistant-js-websocket": "^9.7.1",
     "pixi.js": "^8.6.6"
   },
   "devDependencies": {

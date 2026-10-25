@@ -54,3 +54,43 @@ export function fitRoomToViewport(container: Container, room: Room, viewport: Si
   applyFit(container, fit);
   return fit;
 }
+
+export const MAX_ZOOM_LEVEL = 3;
+
+/**
+ * Pan and integer-step zoom on top of the auto-fit (FR-004). Level 0 is the
+ * fitted view; each step doubles the scale around the zoom center.
+ */
+export class Camera {
+  level = 0;
+
+  constructor(
+    private readonly container: Container,
+    private readonly room: Room,
+    private readonly viewport: () => Size,
+  ) {}
+
+  /** Back to the fitted view; also the double-tap recenter. */
+  refit(): void {
+    this.level = 0;
+    fitRoomToViewport(this.container, this.room, this.viewport());
+  }
+
+  pan(dx: number, dy: number): void {
+    this.container.position.x += dx;
+    this.container.position.y += dy;
+  }
+
+  zoomStep(direction: 1 | -1, center: Point): void {
+    const next = this.level + direction;
+    if (next < 0 || next > MAX_ZOOM_LEVEL) return;
+    this.level = next;
+    const factor = direction === 1 ? 2 : 0.5;
+    const { position, scale } = this.container;
+    position.set(
+      center.x - (center.x - position.x) * factor,
+      center.y - (center.y - position.y) * factor,
+    );
+    scale.set(scale.x * factor);
+  }
+}

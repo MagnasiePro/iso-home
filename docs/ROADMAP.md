@@ -1,7 +1,11 @@
 # Roadmap IsoHome
 
-## 001 – POC une pièce (en cours)
+## 001 – POC une pièce (code terminé, validation sur appareils réels en attente)
 Import Magicplan d'une pièce, rendu iso, appareils réels contrôlables sur tablette.
+
+Fait : import SVG Magicplan, rendu iso au repos (0 redraw idle), gestes tactiles (tap, appui long, pan, zoom par paliers, double-tap), packs de base (placeholders), mode mock, carte Lovelace (`packages/ha-card`, 291 Ko gzip, WebGL seul) et mode live du playground, grisage des sprites à la perte de connexion.
+
+Reste : tester le mode live sur un vrai Home Assistant, vérifier le tactile sur l'app Companion (iOS/Android) et Fully Kiosk (tâche T039a), remplacer les sprites placeholders par de vrais assets, importer la palette Agent Office, GIF de démo.
 
 ## 002 – Maison complète
 Import Magicplan multi-pièces et multi-étages, navigation entre étages (swipe), vue d'ensemble et zoom sur une pièce.

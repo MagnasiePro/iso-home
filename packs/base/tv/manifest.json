@@ -1,0 +1,20 @@
+{
+  "id": "tv",
+  "type": "tv",
+  "haDomains": ["media_player"],
+  "footprint": {
+    "width": 1,
+    "height": 1
+  },
+  "sprites": {
+    "off": "tv-off.png",
+    "on": "tv-on.png"
+  },
+  "stateMap": {
+    "on": "on",
+    "playing": "on",
+    "paused": "on",
+    "off": "off",
+    "standby": "off"
+  }
+}

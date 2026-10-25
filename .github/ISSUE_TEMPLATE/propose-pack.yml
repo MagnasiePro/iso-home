@@ -1,0 +1,35 @@
+name: Propose a pack
+description: Suggest a new element pack (lamp, appliance, furniture...)
+labels: ["pack"]
+body:
+  - type: input
+    id: type
+    attributes:
+      label: Element type
+      description: e.g. "floor-lamp", "fan", "radiator"
+    validations:
+      required: true
+  - type: input
+    id: domains
+    attributes:
+      label: Home Assistant domains it binds to
+      description: Leave empty for a purely decorative element.
+  - type: input
+    id: quick-action
+    attributes:
+      label: Quick action (long-press) service
+      description: e.g. light.toggle. Locks, alarms, valves and garage/door/gate covers are never allowed.
+  - type: textarea
+    id: states
+    attributes:
+      label: Visual states
+      description: One line per state key (e.g. off, on, playing).
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Style checklist
+      options:
+        - label: I read docs/STYLE_GUIDE.md and docs/ASSET_PROMPTING.md
+          required: true

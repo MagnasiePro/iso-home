@@ -1,0 +1,20 @@
+{
+  "id": "ceiling-light",
+  "type": "ceiling-light",
+  "haDomains": ["light"],
+  "footprint": {
+    "width": 1,
+    "height": 1
+  },
+  "sprites": {
+    "off": "ceiling-light-off.png",
+    "on": "ceiling-light-on.png"
+  },
+  "stateMap": {
+    "on": "on",
+    "off": "off"
+  },
+  "quickAction": {
+    "service": "light.toggle"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@iso-home/ha-card",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "check:size": "pnpm build && node scripts/check-size.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:visual": "playwright test"
+  },
+  "dependencies": {
+    "@iso-home/core-model": "workspace:*",
+    "@iso-home/core-render": "workspace:*",
+    "lit": "^3.2.1",
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59",
+    "@types/node": "^22.10.2",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "plant",
+  "type": "plant",
+  "footprint": {
+    "width": 1,
+    "height": 1
+  },
+  "sprites": {
+    "default": "plant.png"
+  }
+}

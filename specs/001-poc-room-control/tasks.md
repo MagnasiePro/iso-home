@@ -99,7 +99,7 @@ idle (quickstart.md Milestone 1).
   (spec Acceptance Scenario 1, FR-001)
 - [X] T016 [P] [US1] Unit test for 0.5m grid snapping in
   `packages/core/model/tests/snap.test.ts`
-- [ ] T017 [P] [US1] Playwright test asserting 0 redraws/second while idle in
+- [X] T017 [P] [US1] Playwright test asserting 0 redraws/second while idle in
   `packages/core/render/tests/idle-render.spec.ts` (SC-006)
 
 ### Implementation for User Story 1
@@ -142,35 +142,35 @@ quick action is rejected with a console message (quickstart.md Milestone 2).
 
 ### Tests for User Story 2
 
-- [ ] T026 [P] [US2] Unit test for long-press threshold/cancel logic (~500ms, cancel if the
+- [X] T026 [P] [US2] Unit test for long-press threshold/cancel logic (~500ms, cancel if the
   finger moves >10px) in `packages/core/render/tests/gestures.test.ts` (FR-005)
-- [ ] T027 [P] [US2] Unit test for forbidden-domain pack rejection in
+- [X] T027 [P] [US2] Unit test for forbidden-domain pack rejection in
   `packages/core/model/tests/pack-validation.test.ts` (FR-009)
-- [ ] T028 [P] [US2] Playwright test covering tap, long-press, one-finger pan, pinch, and
+- [X] T028 [P] [US2] Playwright test covering tap, long-press, one-finger pan, pinch, and
   double-tap in mock mode in `packages/core/render/tests/gestures.spec.ts` (spec User Story 2
   Acceptance Scenarios)
 
 ### Implementation for User Story 2
 
-- [ ] T029 [P] [US2] Author base pack manifests and placeholder spritesheets (lamp, ceiling
+- [X] T029 [P] [US2] Author base pack manifests and placeholder spritesheets (lamp, ceiling
   light, TV, speaker, plant) under `packs/base/*/manifest.json` (FR-010, FR-011), each following
   contracts/pack-manifest.schema.md
-- [ ] T030 [US2] Implement the pack loader with manifest validation and forbidden-domain
+- [X] T030 [US2] Implement the pack loader with manifest validation and forbidden-domain
   rejection (clear console message) in `packages/core/render/src/pack-loader.ts` (depends on
   T010, T029)
-- [ ] T031 [US2] Implement Pointer Events gesture handling — tap, long-press (progress ring +
+- [X] T031 [US2] Implement Pointer Events gesture handling — tap, long-press (progress ring +
   `navigator.vibrate` where supported), one-finger pan, integer-step pinch zoom, double-tap
   recenter — in `packages/core/render/src/gestures.ts` (research.md §3) (depends on T022)
-- [ ] T032 [US2] Set `touch-action: none` on the render canvas so gestures never scroll the page
+- [X] T032 [US2] Set `touch-action: none` on the render canvas so gestures never scroll the page
   (FR-013) in `packages/core/render/src/app.ts` (depends on T021)
-- [ ] T033 [US2] Implement `SpriteState` (visualState/optimistic/stale/errorFlag) with
+- [X] T033 [US2] Implement `SpriteState` (visualState/optimistic/stale/errorFlag) with
   optimistic-update-then-rollback logic in `packages/core/render/src/sprite-state.ts`
   (data-model.md) (depends on T022)
-- [ ] T034 [US2] Wire tap → open-device callback, and long-press → quick-action-or-tap-fallback
+- [X] T034 [US2] Wire tap → open-device callback, and long-press → quick-action-or-tap-fallback
   dispatch in `packages/core/render/src/interactions.ts` (depends on T030, T031, T033)
-- [ ] T035 [US2] Implement the 44×44px minimum tap-target enlargement (beyond sprite bounds when
+- [X] T035 [US2] Implement the 44×44px minimum tap-target enlargement (beyond sprite bounds when
   needed) in `packages/core/render/src/hit-area.ts` (FR-014) (depends on T022)
-- [ ] T036 [US2] Wire `apps/playground` mock mode to simulated entity states with debug toggles
+- [X] T036 [US2] Wire `apps/playground` mock mode to simulated entity states with debug toggles
   and a mock info panel on tap in `apps/playground/src/mock-mode.ts` (depends on T034)
 
 **Checkpoint**: Milestone 2 — elements placed, gestures and forbidden-domain rejection working in
@@ -189,13 +189,13 @@ sprite within 1 second; killing the connection dims every sprite until it's conf
 
 ### Tests for User Story 3
 
-- [ ] T037 [P] [US3] Unit test for the generic `ConnectionState` store's transitions
+- [X] T037 [P] [US3] Unit test for the generic `ConnectionState` store's transitions
   (`connected` ↔ `reconnecting`) in `packages/core/render/tests/connection-state.test.ts`
   (FR-017) — no Home Assistant import in this test; it only exercises the plain setter
-- [ ] T038 [P] [US3] Playwright visual test for pan/zoom smoothness on a tablet viewport with 4x
+- [X] T038 [P] [US3] Playwright visual test for pan/zoom smoothness on a tablet viewport with 4x
   CPU throttling, with a reference screenshot, in
   `packages/ha-card/tests/visual/pan-zoom.spec.ts` (SC-007, research.md §8)
-- [ ] T039 [P] [US3] Integration test asserting a simulated `home-assistant-js-websocket` state
+- [X] T039 [P] [US3] Integration test asserting a simulated `home-assistant-js-websocket` state
   change reflects in the sprite within 1 second, in
   `packages/ha-card/tests/live-update.test.ts` (SC-002)
 - [ ] T039a [US3] Manual verification: confirm touch-only operation on the Home Assistant
@@ -204,31 +204,31 @@ sprite within 1 second; killing the connection dims every sprite until it's conf
 
 ### Implementation for User Story 3
 
-- [ ] T040 [P] [US3] Implement a generic `ConnectionState` store (`status: "connected" |
+- [X] T040 [P] [US3] Implement a generic `ConnectionState` store (`status: "connected" |
   "reconnecting"`, a plain `setStatus()` setter) with **no Home Assistant import** in
   `packages/core/render/src/connection-state.ts` (FR-017) — core stays platform-agnostic
   (constitution Principle III); HA-specific wiring happens in T043 and T046 below (depends on
   T033)
-- [ ] T041 [US3] Implement stale-sprite dimming applied to every `SpriteState` when
+- [X] T041 [US3] Implement stale-sprite dimming applied to every `SpriteState` when
   `ConnectionState.status !== "connected"`, reverting on reconnect, in
   `packages/core/render/src/sprite-state.ts` (FR-017) (depends on T033, T040)
-- [ ] T042 [US3] Implement halo tinting for a lit lamp sprite from its `rgb_color`/`brightness`
+- [X] T042 [US3] Implement halo tinting for a lit lamp sprite from its `rgb_color`/`brightness`
   attributes, when present, in `packages/core/render/src/halo.ts` (FR-007) (depends on T033)
-- [ ] T043 [US3] Implement the `packages/ha-card` Lit shell: `hass` setter diffing watched
+- [X] T043 [US3] Implement the `packages/ha-card` Lit shell: `hass` setter diffing watched
   entities into `SpriteState`, `setConfig` loading the `HomeModel` and packs, and deriving
   connection status from `hass.connection`'s own lifecycle events (the card never opens its own
   socket) to call T040's `setStatus()`, in `packages/ha-card/src/iso-home-card.ts`
   (contracts/ha-card-interface.md) (depends on T025, T034, T040)
-- [ ] T044 [US3] Wire tap → dispatch a bubbling, composed `hass-more-info` CustomEvent with
+- [X] T044 [US3] Wire tap → dispatch a bubbling, composed `hass-more-info` CustomEvent with
   `{ entityId }` in `packages/ha-card/src/iso-home-card.ts` (depends on T043)
-- [ ] T045 [US3] Wire long-press → `hass.callService` with the pack's `quickAction.service` in
+- [X] T045 [US3] Wire long-press → `hass.callService` with the pack's `quickAction.service` in
   `packages/ha-card/src/iso-home-card.ts` (depends on T043)
-- [ ] T046 [P] [US3] Implement `apps/playground` live mode: a `home-assistant-js-websocket`
+- [X] T046 [P] [US3] Implement `apps/playground` live mode: a `home-assistant-js-websocket`
   connection reading its token only from `.env.local`, a mini on/off+brightness panel on tap,
   long-press calling the same service as the card, and deriving connection status from this
   connection's own lifecycle to call T040's `setStatus()`, in
   `apps/playground/src/live-mode.ts` (contracts/ha-card-interface.md) (depends on T034, T040)
-- [ ] T047 [US3] Configure `packages/ha-card`'s Vite library-mode build to emit a single ES
+- [X] T047 [US3] Configure `packages/ha-card`'s Vite library-mode build to emit a single ES
   module and verify its gzip size stays under 300KB with packs excluded, in
   `packages/ha-card/vite.config.ts` (research.md §6)
 
@@ -242,17 +242,17 @@ stale-state behavior on disconnect. Stop for sign-off.
 **Purpose**: Contributor-facing docs and project-memory upkeep the constitution requires, plus
 final verification.
 
-- [ ] T048 [P] Write `docs/STYLE_GUIDE.md` (2:1 dimetric projection, 64×32 tile, locked palette,
+- [X] T048 [P] Write `docs/STYLE_GUIDE.md` (2:1 dimetric projection, 64×32 tile, locked palette,
   top-left light, 1px dark outline, no anti-aliasing), per constitution Principle II
-- [ ] T049 [P] Write `docs/ASSET_PROMPTING.md` with prompt templates and a contributor validation
+- [X] T049 [P] Write `docs/ASSET_PROMPTING.md` with prompt templates and a contributor validation
   checklist (palette, projection, size, states, tap zone)
-- [ ] T050 [P] Write `README.md` (with a GIF and HACS install steps), `CONTRIBUTING.md`, and a
+- [X] T050 [P] Write `README.md` (with a GIF and HACS install steps), `CONTRIBUTING.md`, and a
   "propose a pack" GitHub issue template
-- [ ] T051 [P] Generate and commit the JSON Schema files for `HomeModel` and the pack manifest
+- [X] T051 [P] Generate and commit the JSON Schema files for `HomeModel` and the pack manifest
   via `pnpm generate:schemas` (T014) into `packages/core/model/schemas/*.json`
-- [ ] T052 Update `CLAUDE.md` and `docs/ROADMAP.md` to reflect the POC's completed state, per the
+- [X] T052 Update `CLAUDE.md` and `docs/ROADMAP.md` to reflect the POC's completed state, per the
   constitution's Project Memory & Workflow section
-- [ ] T053 Run `pnpm check` (lint + typecheck + tests) across the workspace and fix any failures
+- [X] T053 Run `pnpm check` (lint + typecheck + tests) across the workspace and fix any failures
 - [ ] T054 Run all three `quickstart.md` milestone validations end-to-end and capture the
   sign-off screenshots the spec's Method calls for
 

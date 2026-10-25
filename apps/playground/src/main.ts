@@ -1,14 +1,40 @@
 import { mergeHomeModel } from "@iso-home/core-model";
 import {
+  Camera,
   IdleRenderLoop,
+  buildObjectSprites,
   buildRoomScene,
   createApp,
-  fitRoomToViewport,
+  loadPacks,
 } from "@iso-home/core-render";
 import { extractFromSvg, toRoom } from "@iso-home/importer-magicplan";
+import { Assets, type Texture } from "pixi.js";
 // Synthetic test fixture — see fixtures/magicplan/README.md and docs/adr/0001.
 // Real room name/device list are still-to-come configuration data (spec.md Assumptions).
 import sampleRoomSvg from "../../../fixtures/magicplan/sample-room.svg?raw";
+import { badPack, badPackDevice, sampleDevices } from "./devices.js";
+import { startLiveMode } from "./live-mode.js";
+import { startMockMode } from "./mock-mode.js";
+
+const manifests = Object.values(
+  import.meta.glob("../../../packs/base/*/manifest.json", { eager: true, import: "default" }),
+);
+const spriteUrls = import.meta.glob("../../../packs/base/*/*.png", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+
+/** Loads every pack sprite, keyed by file name (unique across the base pack). */
+async function loadTextures(): Promise<Map<string, Texture>> {
+  const textures = new Map<string, Texture>();
+  for (const [path, url] of Object.entries(spriteUrls)) {
+    const texture = await Assets.load<Texture>(url);
+    texture.source.scaleMode = "nearest";
+    textures.set(path.split("/").pop() as string, texture);
+  }
+  return textures;
+}
 
 async function main(): Promise<void> {
   const appContainer = document.getElementById("app");
@@ -18,12 +44,17 @@ async function main(): Promise<void> {
   }
   const debugElement: HTMLElement = debugEl;
 
-  // Milestone 1: importer output merged with an (empty, for now) hand-written
-  // device list, proving the merge contract end-to-end (FR-002). Devices are
-  // wired up visually in Milestone 2 (US2).
+  // Importer output merged with the hand-written device list (FR-002).
+  const withBadPack = new URLSearchParams(location.search).has("bad-pack");
   const geometry = extractFromSvg(sampleRoomSvg);
   const room = toRoom("Living Room", geometry);
-  const homeModel = mergeHomeModel([room], []);
+  const homeModel = mergeHomeModel(
+    [room],
+    withBadPack ? [...sampleDevices, badPackDevice] : sampleDevices,
+  );
+  const packs = loadPacks(withBadPack ? [...manifests, badPack] : manifests);
+  const textures = await loadTextures();
+  const texture = (_pack: unknown, frame: string): Texture => textures.get(frame) as Texture;
 
   const app = await createApp({ width: window.innerWidth, height: window.innerHeight });
   appContainer.appendChild(app.canvas);
@@ -35,16 +66,24 @@ async function main(): Promise<void> {
 
   const sceneContainer = buildRoomScene(firstRoom);
   app.stage.addChild(sceneContainer);
-  fitRoomToViewport(sceneContainer, firstRoom, {
+  const items = buildObjectSprites(homeModel.objects, packs, texture);
+  for (const item of items) sceneContainer.addChild(item.sprite);
+
+  const camera = new Camera(sceneContainer, firstRoom, () => ({
     width: window.innerWidth,
     height: window.innerHeight,
-  });
+  }));
+  camera.refit();
 
   // Pixi's Application ticker renders continuously by default; stop it and
   // drive rendering ourselves through IdleRenderLoop so idle = 0 redraws/sec
   // (FR-008, SC-006).
   app.stop();
   const idleLoop = new IdleRenderLoop(() => app.render());
+
+  const modeOptions = { app, world: sceneContainer, items, camera, loop: idleLoop, texture };
+  if (import.meta.env.MODE === "live") await startLiveMode(modeOptions);
+  else startMockMode(modeOptions);
 
   let lastShownCount = -1;
   function frame(): void {
@@ -60,10 +99,7 @@ async function main(): Promise<void> {
 
   window.addEventListener("resize", () => {
     app.renderer.resize(window.innerWidth, window.innerHeight);
-    fitRoomToViewport(sceneContainer, firstRoom, {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+    camera.refit();
     idleLoop.requestRender();
   });
 }
