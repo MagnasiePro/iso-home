@@ -67,10 +67,14 @@ unmatched `roomId` — this is a hard failure, not a silent drop.
 | `stateMap` | declarative entity→state-key mapping | How an HA entity's `state`/attributes resolve to a `sprites` key (e.g. a lit lamp's halo tint from `rgb_color`/`brightness`) |
 | `quickAction` | `QuickAction`, optional | Long-press action, e.g. `{ service: "light.toggle" }` |
 
-**Validation (load-time, FR-009)**: if `quickAction.service`'s domain is in the forbidden set
-(`lock`, `alarm_control_panel`, a `cover` with a garage/door/gate `device_class`, `valve`), the
-whole pack MUST be rejected with a clear console message — regardless of what the manifest
-declares. The device stays usable via tap only.
+**Validation (load-time, FR-009)**: `quickAction.service`'s domain MUST be on an allowlist
+(`light`, `switch`, `fan`, `input_boolean`, `media_player`, `cover`), not merely absent from a
+denylist — a generic/indirect service (`homeassistant.*`, `script.*`, `scene.*`, `automation.*`)
+can act on any entity regardless of its own domain name, so it is rejected outright. A `cover`
+quick action additionally requires a known, safe `device_class` (fail-closed: unknown/missing is
+rejected, not allowed). When the bound entity is known, its domain MUST also match the service's
+domain. Any violation MUST reject the whole pack with a clear console message — regardless of
+what the manifest declares. The device stays usable via tap only.
 
 ## QuickAction
 

@@ -21,10 +21,16 @@ time before it can be referenced by any `PlacedObject`.
 }
 ```
 
-**Enforced at load time (FR-009)**: if `quickAction.service`'s domain is one of `lock`,
-`alarm_control_panel`, `valve`, or a `cover` whose `device_class` is `garage`, `door`, or `gate`,
-the entire pack is rejected and a console message names the offending domain. This check runs in
-core and cannot be bypassed by a pack manifest, regardless of what it declares.
+**Enforced at load time (FR-009)**: `quickAction.service`'s domain MUST be on an allowlist
+(`light`, `switch`, `fan`, `input_boolean`, `media_player`, `cover`) — not a denylist. A generic
+or indirect service (`homeassistant.*`, `script.*`, `scene.*`, `automation.*`, ...) can act on any
+entity regardless of its own domain, so it is rejected outright rather than enumerated as
+individually "forbidden". A `cover` quick action additionally requires a known, safe
+`device_class` (`curtain`, `blind`, `shade`, `shutter`, `awning`, `window`) — an unknown or
+missing `device_class` is rejected (fail-closed), not allowed. When the bound entity is known, its
+domain (from `entityId`) MUST also match the service's own domain. This check runs in core and
+cannot be bypassed by a pack manifest, regardless of what it declares — see
+`packages/core/model/src/quick-action.ts`.
 
 **The "plant" example pack** (FR-011/SC-005) follows this same contract with no `haDomains`,
 `stateMap`, or `quickAction` entry and no `entityId` ever set on the `PlacedObject` that uses it —

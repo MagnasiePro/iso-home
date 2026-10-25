@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "pnpm -r run lint && pnpm -r run typecheck && pnpm -r run test",
+    "check": "pnpm run lint && pnpm -r run typecheck && pnpm -r run test",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "generate:schemas": "pnpm --filter @iso-home/core-model run generate:schemas"
