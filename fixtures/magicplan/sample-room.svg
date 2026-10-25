@@ -1,0 +1,10 @@
+<!--
+  Synthetic test fixture for packages/importer-magicplan — see README.md in this
+  directory. 1 unit = 1 cm. Room: 4m × 3m, one door (south wall), one window
+  (east wall).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <polygon class="wall-outline" points="0,0 400,0 400,300 0,300" />
+  <rect class="door" x="150" y="295" width="90" height="10" />
+  <rect class="window" x="395" y="50" width="10" height="120" />
+</svg>

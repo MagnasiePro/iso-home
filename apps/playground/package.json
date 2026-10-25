@@ -1,0 +1,22 @@
+{
+  "name": "@iso-home/playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"no unit tests in apps/playground yet\" && exit 0"
+  },
+  "dependencies": {
+    "@iso-home/core-model": "workspace:*",
+    "@iso-home/core-render": "workspace:*",
+    "@iso-home/importer-magicplan": "workspace:*",
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "vite": "^5.4.11"
+  }
+}

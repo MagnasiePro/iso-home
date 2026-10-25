@@ -1,0 +1,21 @@
+{
+  "name": "iso-home",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "pnpm -r run lint && pnpm -r run typecheck && pnpm -r run test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "generate:schemas": "pnpm --filter @iso-home/core-model run generate:schemas"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "lefthook": "^1.8.5",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@10.15.0"
+}

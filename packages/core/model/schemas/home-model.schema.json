@@ -1,0 +1,111 @@
+{
+  "$ref": "#/definitions/home-model",
+  "definitions": {
+    "home-model": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "1"
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "polygon": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": ["x", "y"],
+                  "additionalProperties": false
+                },
+                "minItems": 3
+              },
+              "openings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": ["door", "window"]
+                    },
+                    "wallSegmentIndex": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "width": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  },
+                  "required": ["id", "type", "wallSegmentIndex", "width"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["id", "name", "polygon", "openings"],
+            "additionalProperties": false
+          }
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "roomId": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "position": {
+                "$ref": "#/definitions/home-model/properties/rooms/items/properties/polygon/items"
+              },
+              "rotation": {
+                "type": "number",
+                "enum": [0, 90, 180, 270]
+              },
+              "entityId": {
+                "type": "string",
+                "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
+              }
+            },
+            "required": ["id", "type", "roomId", "position", "rotation"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["version", "rooms", "objects"],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,69 @@
+{
+  "$ref": "#/definitions/pack-manifest",
+  "definitions": {
+    "pack-manifest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "haDomains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "footprint": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "height": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": ["width", "height"],
+          "additionalProperties": false
+        },
+        "sprites": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "stateMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {}
+        },
+        "quickAction": {
+          "type": "object",
+          "properties": {
+            "service": {
+              "type": "string",
+              "pattern": "^[a-z_]+\\.[a-z_]+$"
+            }
+          },
+          "required": ["service"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["id", "type", "footprint", "sprites"],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
