@@ -12,7 +12,7 @@ import { Assets, type Texture } from "pixi.js";
 // Synthetic test fixture — see fixtures/magicplan/README.md and docs/adr/0001.
 // Real room name/device list are still-to-come configuration data (spec.md Assumptions).
 import sampleRoomSvg from "../../../fixtures/magicplan/sample-room.svg?raw";
-import { badPack, badPackDevice, sampleDevices } from "./devices.js";
+import { badPack, badPackDevice, liveEntities, sampleDevices } from "./devices.js";
 import { startLiveMode } from "./live-mode.js";
 import { startMockMode } from "./mock-mode.js";
 
@@ -48,10 +48,14 @@ async function main(): Promise<void> {
   const withBadPack = new URLSearchParams(location.search).has("bad-pack");
   const geometry = extractFromSvg(sampleRoomSvg);
   const room = toRoom("Living Room", geometry);
-  const homeModel = mergeHomeModel(
-    [room],
-    withBadPack ? [...sampleDevices, badPackDevice] : sampleDevices,
-  );
+  const isLive = import.meta.env.MODE === "live";
+  const devices = isLive
+    ? sampleDevices.map((d) => {
+        const entityId = liveEntities[d.id];
+        return entityId === undefined ? d : { ...d, entityId };
+      })
+    : sampleDevices;
+  const homeModel = mergeHomeModel([room], withBadPack ? [...devices, badPackDevice] : devices);
   const packs = loadPacks(withBadPack ? [...manifests, badPack] : manifests);
   const textures = await loadTextures();
   const texture = (_pack: unknown, frame: string): Texture => textures.get(frame) as Texture;
@@ -82,7 +86,7 @@ async function main(): Promise<void> {
   const idleLoop = new IdleRenderLoop(() => app.render());
 
   const modeOptions = { app, world: sceneContainer, items, camera, loop: idleLoop, texture };
-  if (import.meta.env.MODE === "live") await startLiveMode(modeOptions);
+  if (isLive) await startLiveMode(modeOptions);
   else startMockMode(modeOptions);
 
   let lastShownCount = -1;

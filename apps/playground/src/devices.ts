@@ -62,3 +62,14 @@ export const badPackDevice: PlacedObject = {
   rotation: 0,
   entityId: "lock.front_door",
 };
+
+/**
+ * Live mode only: demo object id -> real Home Assistant entity id. Only lights get a quick
+ * action in the base pack; keep switches out (they can control containers or locks).
+ */
+export const liveEntities: Record<string, string> = {
+  "lamp-1": "light.salon_lampe_sur_pied",
+  "ceiling-1": "light.salon_salon",
+  "tv-1": "media_player.living_room_salon",
+  "speaker-1": "media_player.salle_a_manger",
+};
